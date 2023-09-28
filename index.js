@@ -1,18 +1,14 @@
 require("dotenv").config();
 const app = require("./app");
-const mongoose = require("mongoose");
-const http = require("http");
+const connectionDB = require("./db");
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 
-async function connectionDB() {
-  try {
-    mongoose.connect(process.env.DB_URL);
-    app.listen(port, () => {
-      console.log(`http://localhost:${port}`);
-    });
-  } catch (e) {
-    console.log(e.message);
-  }
-}
-connectionDB();
+const main = async () => {
+  await connectionDB();
+  app.listen(port, () => {
+    console.log("Server is running");
+  });
+};
+
+main();
