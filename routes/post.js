@@ -69,6 +69,22 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ code: 404, message: "Post not found" });
+    }
+    return res.status(200).json({ code: 200, data: post });
+  } catch (err) {
+    res.status(err.status || 500).json({
+      code: err.status || 500,
+      message: err.message || "Inter server error",
+    });
+  }
+});
+
 //GET ALL POSTS
 router.get("/", async (req, res) => {
   const userName = req.query.user;
