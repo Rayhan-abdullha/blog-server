@@ -30,4 +30,24 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
   res.status(200).json("file has been uploded");
 });
 
+app.get("/", (_req, res) => {
+  res.status(200).json({
+    status: 200,
+    message: "Server is running...",
+  });
+});
+
+app.use((_req, _res, next) => {
+  const error = new Error("Notfound 404");
+  error.status = 404;
+  next(error);
+});
+
+app.use((err, _req, res, next) => {
+  if (err.status) {
+    return res.status(err.status).json({ error: err.message });
+  }
+  return res.status(500).json({ error: "Server is occurred!" });
+});
+
 module.exports = app;

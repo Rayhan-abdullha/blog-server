@@ -6,13 +6,6 @@ const server = http.createServer(app);
 
 const port = process.env.PORT || 5000;
 
-app.get("/", (_req, res) => {
-  res.send({
-    status: 200,
-    message: "Server is running...",
-  });
-});
-
 async function connectionDB() {
   try {
     await mongoose.connect(process.env.DB_URL);
