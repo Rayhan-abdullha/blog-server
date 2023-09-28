@@ -6,6 +6,7 @@ const userRoute = require("./routes/user");
 const postsRoute = require("./routes/post");
 const categoryRoute = require("./routes/categories");
 const multer = require("multer");
+const Post = require("./models/Post");
 
 app.use(express.json());
 app.use(cors());
@@ -30,10 +31,12 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
   res.status(200).json("file has been uploded");
 });
 
-app.get("/", (_req, res) => {
+app.get("/", async (_req, res) => {
+  const posts = await Post.find();
   res.status(200).json({
     status: 200,
     message: "Server is running...",
+    data: posts,
   });
 });
 
